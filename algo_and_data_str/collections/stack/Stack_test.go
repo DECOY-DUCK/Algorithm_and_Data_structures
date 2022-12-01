@@ -1,4 +1,4 @@
-package stack
+package main
 
 import "testing"
 
@@ -19,7 +19,15 @@ func TestStack_Empty(t *testing.T) {
 		t.Errorf("Empty error")
 	}
 }
+func TestStack_Peek(t *testing.T) {
+	s := NewStack[int]()
+	s.Push(1)
+	s.Push(2)
 
+	if s.peek() != 2 {
+		t.Errorf("peek error")
+	}
+}
 func TestStack_Pop(t *testing.T) {
 	s := NewStack[int]()
 	s.Push(1)
