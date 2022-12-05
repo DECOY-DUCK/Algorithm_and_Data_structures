@@ -1,4 +1,4 @@
-package main
+package stack
 
 import "testing"
 
@@ -24,7 +24,7 @@ func TestStack_Peek(t *testing.T) {
 	s.Push(1)
 	s.Push(2)
 
-	if s.peek() != 2 {
+	if s.Peek() != 2 {
 		t.Errorf("peek error")
 	}
 }
@@ -34,5 +34,16 @@ func TestStack_Pop(t *testing.T) {
 	result := s.Pop()
 	if result != 1 {
 		t.Errorf("Pop error")
+	}
+}
+func TestStack_size(t *testing.T) {
+	s := NewStack[int]()
+	s.Push(1)
+	s.Push(1)
+	s.Push(1)
+	s.Push(1)
+
+	if s.Size() != 4 {
+		t.Errorf("size error")
 	}
 }
