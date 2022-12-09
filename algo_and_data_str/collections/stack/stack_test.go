@@ -1,6 +1,33 @@
 package stack
 
-import "testing"
+import (
+	"fmt"
+	"github.com/stretchr/testify/suite"
+	"reflect"
+	"testing"
+)
+
+type TestSuite struct {
+	suite.Suite
+	s *stack[int]
+}
+
+func TestRunSuite(t *testing.T) {
+	suite.Run(t, new(TestSuite))
+}
+
+// suite에서 각 테스트 실행 전에 실행된다
+func (ts *TestSuite) SetupTest() {
+	fmt.Println("SetupTest :: run setup test")
+	ts.s = NewStack[int]()
+}
+func TestNewStack(t *testing.T) {
+	s := NewStack[int]()
+
+	if reflect.TypeOf(s) != reflect.TypeOf(&stack[int]{}) {
+		t.Errorf("NewStack error")
+	}
+}
 
 func TestStack_Push(t *testing.T) {
 	s := NewStack[int]()
