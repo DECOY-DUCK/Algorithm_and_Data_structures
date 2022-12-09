@@ -5,8 +5,8 @@ type SegmentTree struct {
 	tree []int
 }
 
-func New(arr []int, n int) *SegmentTree {
-	return &SegmentTree{arr, make([]int, n)}
+func New(arr []int) *SegmentTree {
+	return &SegmentTree{arr, make([]int, 4*len(arr))}
 }
 
 // build 세그먼트 트리를 채우는 함수
