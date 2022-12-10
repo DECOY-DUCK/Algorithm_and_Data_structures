@@ -9,7 +9,8 @@ import (
 
 type TestSuite struct {
 	suite.Suite
-	h *heap
+	h *heap[int]
+	p *heap[int]
 }
 
 func TestRunSuit(t *testing.T) {
@@ -18,7 +19,8 @@ func TestRunSuit(t *testing.T) {
 
 // 함수가 실행할때마다
 func (ts *TestSuite) SetupTest() {
-	ts.h = NewHeap()
+	ts.h = NewMaxHeap[int]()
+	ts.p = NewMinHeap[int]()
 }
 
 func (ts *TestSuite) TestHeap_Add() {
@@ -26,7 +28,14 @@ func (ts *TestSuite) TestHeap_Add() {
 	ts.h.Add(2)
 	ts.h.Add(3)
 
-	assert.Equal(ts.T(), len(ts.h.node)-1, 3)
+	assert.Equal(ts.T(), 3, len(ts.h.node)-1, "maxHeap add error")
+
+	ts.p.Add(1)
+	ts.p.Add(2)
+	ts.p.Add(3)
+
+	assert.Equal(ts.T(), 3, len(ts.p.node)-1, "minHeap add error")
+
 }
 func (ts *TestSuite) TestHeap_Poll() {
 	ts.h.Add(1)
@@ -34,7 +43,14 @@ func (ts *TestSuite) TestHeap_Poll() {
 	ts.h.Add(10)
 	result := ts.h.Poll()
 
-	assert.Equal(ts.T(), result, 10)
+	assert.Equal(ts.T(), 10, result)
+
+	ts.p.Add(1)
+	ts.p.Add(3)
+	ts.p.Add(10)
+	result = ts.p.Poll()
+
+	assert.Equal(ts.T(), 1, result)
 }
 
 func (ts *TestSuite) TestHeap_Peek() {
@@ -42,8 +58,8 @@ func (ts *TestSuite) TestHeap_Peek() {
 	ts.h.Add(100)
 	result := ts.h.Peek()
 
-	assert.Equal(ts.T(), result, 100, "Peek error")
-	assert.Equal(ts.T(), len(ts.h.node)-1, 2, "size error")
+	assert.Equal(ts.T(), 100, result, "Peek error")
+	assert.Equal(ts.T(), 2, len(ts.h.node)-1, "size error")
 }
 
 func (ts *TestSuite) TestHeap_Size() {
@@ -51,9 +67,10 @@ func (ts *TestSuite) TestHeap_Size() {
 	ts.h.Add(1)
 	ts.h.Add(1)
 	ts.h.Add(1)
-	assert.Equal(ts.T(), ts.h.Size(), 4, "Size error")
+	assert.Equal(ts.T(), 4, ts.h.Size(), "Size error")
 }
+
 func (ts *TestSuite) TestHeap_Empty() {
 	ts.h.Add(1)
-	assert.Equal(ts.T(), ts.h.Empty(), false)
+	assert.Equal(ts.T(), false, ts.h.Empty())
 }
